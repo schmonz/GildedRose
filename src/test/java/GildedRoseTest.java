@@ -20,6 +20,22 @@ public class GildedRoseTest {
 	public void normalItemAfterSellDate() {
 		checkUpdateQuality("abc", 0, 0, 0);
 	}
+	
+
+	@Test
+	public void normalItemAfterSellDate1() {
+		checkUpdateQuality("abc", 1, 10, 9);
+	}
+
+	@Test
+	public void normalItemAfterSellDate2() {
+		checkUpdateQuality("abc", 0, 10, 8);
+	}
+
+	@Test
+	public void normalItemAfterSellDate3() {
+		checkUpdateQuality("abc", -1, 10, 8);
+	}
 
 //	Pretty simple, right? Well this is where it gets interesting:
 //
@@ -47,17 +63,35 @@ public class GildedRoseTest {
 //
 //	* "Conjured" items degrade in Quality twice as fast as normal items
 	@Test
-	@Ignore
-	public void conjuredItemAfterSellDate() {
-
-		checkUpdateQuality(GildedRose.CONJURED_MANA_CAKE, 0, 0, 0);
+	public void conjuredItemBeforeSellDate() {
+		checkUpdateQuality(GildedRose.CONJURED_MANA_CAKE, 1, 2, 0);
 	}
-
+	
+	@Test
+	public void conjuredItemAfterSellDate1() {
+		checkUpdateQuality(GildedRose.CONJURED_MANA_CAKE, 1, 10, 8);
+	}
+	
+	@Test
+	public void conjuredItemAfterSellDate2() {
+		checkUpdateQuality(GildedRose.CONJURED_MANA_CAKE, 0, 10, 6);
+	}
+	
+	@Test
+	public void conjuredItemAfterSellDate3() {
+		checkUpdateQuality(GildedRose.CONJURED_MANA_CAKE, -1, 10, 6);
+	}
+	
+	@Test
+	public void conjuredItemQualityDoesntDropBelowZero() {
+		checkUpdateQuality(GildedRose.CONJURED_MANA_CAKE, 1, 0, 0);
+	}
+	
 	public void checkUpdateQuality(String name, int sellIn, int initialQuality, int expectedQuality) {
 		Item item = new Item(name, sellIn, initialQuality);
 		GildedRose.updateQuality(item);
-		assertEquals(expectedQuality, item.quality);
-		assertEquals(sellIn - 1, item.sellIn);
+		assertEquals("quality", expectedQuality, item.quality);
+		assertEquals("sellin", sellIn - 1, item.sellIn);
 	}
 
 }

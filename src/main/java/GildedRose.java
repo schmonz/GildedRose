@@ -35,6 +35,17 @@ public class GildedRose {
 	}
 
 	static void updateQuality(Item item) {
+		if (CONJURED_MANA_CAKE.equals(item.getName())) {
+			final int qualityDecrease = item.sellIn >0 ? 2 : 4;
+			
+			item.sellIn--;
+			
+			item.quality-=qualityDecrease;
+			if ( item.quality < 0 ) {
+				item.quality = 0;
+			}
+			return;
+		}
 		if ((!AGED_BRIE.equals(item.getName()))
 				&& !BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT.equals(item.getName())) {
 			if (item.getQuality() > 0) {
